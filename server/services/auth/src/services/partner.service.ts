@@ -10,7 +10,7 @@ import { Types } from "mongoose";
 
 const SESSION_TTL = 7 * 24 * 60 * 60;
 const PUBLIC_PARTNERS_CACHE_TTL = 10 * 60;
-const PUBLIC_PARTNERS_CACHE_KEY = "public:partners";
+const PUBLIC_PARTNERS_CACHE_KEY = "public:partners:v2";
 
 interface SessionData {
     userId: string;
@@ -43,8 +43,6 @@ export interface PublicPartner {
             github: string;
         };
     };
-    totalSales: number;
-    totalRevenue: number;
 }
 
 interface PublicPartnersResult {
@@ -151,7 +149,7 @@ export const getAllPublicPartner = async (): Promise<PublicPartnersResult> => {
         "partnerProfile.slug": { $regex: /\S/ },
     })
         .select(
-            "_id name isActive partnerProfile.slug partnerProfile.bio partnerProfile.website partnerProfile.socialLinks totalSales totalRevenue",
+            "_id name isActive partnerProfile.slug partnerProfile.bio partnerProfile.website partnerProfile.socialLinks",
         )
         .lean();
 
@@ -170,8 +168,6 @@ export const getAllPublicPartner = async (): Promise<PublicPartnersResult> => {
                 github: partner.partnerProfile?.socialLinks?.github ?? "",
             },
         },
-        totalSales: partner.totalSales,
-        totalRevenue: partner.totalRevenue,
     }));
 
     await redis.set(
