@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Badge } from "../ui/badge";
+import { useNavigate } from "react-router-dom";
 
 interface ProfilePanelProps {
   partner: Partner;
@@ -27,6 +28,8 @@ const ProfilePanel = ({
 }: ProfilePanelProps) => {
 
   const [form, setForm] = useState<Partner>(partner);
+
+  const navigate = useNavigate();
 
   const updateUser = (key: "name", value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -53,7 +56,7 @@ const ProfilePanel = ({
         </div>
 
         {partner?.partnerProfile?.slug && (
-          <Button variant='outline' className="shrink-0 rounded-xl border-white/15 bg-white/4 text-slate-200 hover:bg-white/10 hover:text-white">
+          <Button onClick={() => navigate(`/partner/${partner.partnerProfile.slug}`)} variant='outline' className="shrink-0 rounded-xl border-white/15 bg-white/4 text-slate-200 hover:bg-white/10 hover:text-white">
             <ExternalLink className="size-4" />
             View Public Profile
           </Button>

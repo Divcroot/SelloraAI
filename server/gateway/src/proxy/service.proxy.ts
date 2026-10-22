@@ -27,3 +27,4 @@ const proxyWithUserId = (serviceUrl: string) => proxy(serviceUrl, {
 
 export const authServiceProxy = proxy(env.AUTH_SERVICE_URL);
 export const productServiceProxy = proxyWithUserId(env.PRODUCT_SERVICE_URL);
+export const publicProductServiceProxy = proxy(env.PRODUCT_SERVICE_URL);

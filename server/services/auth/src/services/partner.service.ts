@@ -9,6 +9,8 @@ import type {
 import { Types } from "mongoose";
 
 const SESSION_TTL = 7 * 24 * 60 * 60;
+const PUBLIC_PARTNERS_CACHE_TTL = 10 * 60;
+const PUBLIC_PARTNERS_CACHE_KEY = "public:partners";
 
 interface SessionData {
     userId: string;
@@ -23,6 +25,30 @@ export interface PartnerUpdate {
 
 interface PartnerResult {
     partner: unknown;
+    source: "Redis" | "Database";
+}
+
+export interface PublicPartner {
+    _id: string;
+    name: string;
+    isActive: boolean;
+    partnerProfile: {
+        slug: string;
+        bio: string;
+        website: string;
+        socialLinks: {
+            youtube: string;
+            linkedin: string;
+            instagram: string;
+            github: string;
+        };
+    };
+    totalSales: number;
+    totalRevenue: number;
+}
+
+interface PublicPartnersResult {
+    partners: PublicPartner[];
     source: "Redis" | "Database";
 }
 
@@ -91,6 +117,72 @@ export const getPartner = async (
 
     return {
         partner,
+        source: "Database",
+    };
+};
+
+export const getAllPublicPartner = async (): Promise<PublicPartnersResult> => {
+    const cachedPartners = await redis.get(PUBLIC_PARTNERS_CACHE_KEY);
+
+    if (cachedPartners) {
+        const partners: unknown = JSON.parse(cachedPartners);
+        const hasActiveStatus = Array.isArray(partners) &&
+            partners.every(
+                (partner) =>
+                    typeof partner === "object" &&
+                    partner !== null &&
+                    "isActive" in partner &&
+                    typeof partner.isActive === "boolean",
+            );
+
+        if (hasActiveStatus) {
+            return {
+                partners: partners as PublicPartner[],
+                source: "Redis",
+            };
+        }
+
+        await redis.del(PUBLIC_PARTNERS_CACHE_KEY);
+    }
+
+    const partnerDocuments = await User.find({
+        role: "partner",
+        isActive: true,
+        "partnerProfile.slug": { $regex: /\S/ },
+    })
+        .select(
+            "_id name isActive partnerProfile.slug partnerProfile.bio partnerProfile.website partnerProfile.socialLinks totalSales totalRevenue",
+        )
+        .lean();
+
+    const partners: PublicPartner[] = partnerDocuments.map((partner) => ({
+        _id: partner._id.toString(),
+        name: partner.name,
+        isActive: partner.isActive,
+        partnerProfile: {
+            slug: partner.partnerProfile?.slug ?? "",
+            bio: partner.partnerProfile?.bio ?? "",
+            website: partner.partnerProfile?.website ?? "",
+            socialLinks: {
+                youtube: partner.partnerProfile?.socialLinks?.youtube ?? "",
+                linkedin: partner.partnerProfile?.socialLinks?.linkedin ?? "",
+                instagram: partner.partnerProfile?.socialLinks?.instagram ?? "",
+                github: partner.partnerProfile?.socialLinks?.github ?? "",
+            },
+        },
+        totalSales: partner.totalSales,
+        totalRevenue: partner.totalRevenue,
+    }));
+
+    await redis.set(
+        PUBLIC_PARTNERS_CACHE_KEY,
+        JSON.stringify(partners),
+        "EX",
+        PUBLIC_PARTNERS_CACHE_TTL,
+    );
+
+    return {
+        partners,
         source: "Database",
     };
 };
@@ -170,6 +262,7 @@ export const updatePartner = async (
                 "EX",
                 SESSION_TTL,
             ),
+            redis.del(PUBLIC_PARTNERS_CACHE_KEY),
         ]);
 
         return partner;

@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
     authServiceProxy,
     productServiceProxy,
+    publicProductServiceProxy,
 } from "../proxy/service.proxy.js";
 import { protect } from "../middlewares/isAuth.js";
 import { getCurrentUser } from "../controller/user.controller.js";
@@ -17,5 +18,8 @@ router.get("/user/me", protect, getCurrentUser);
 
 //Product routes
 router.use("/product", protect, productServiceProxy);
+
+//Public Product routes
+router.use("/public-product", publicProductServiceProxy);
 
 export default router;

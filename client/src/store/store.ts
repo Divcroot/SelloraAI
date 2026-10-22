@@ -1,3 +1,4 @@
+import type { Product } from '@/components/product/types';
 import api from '@/utils/axios';
 import { toast } from 'sonner';
 import { create } from 'zustand'
@@ -58,6 +59,15 @@ interface UserState {
     logout: () => Promise<void>;
 }
 
+interface PublicState {
+    allPublicPartners: Partner[] | [];
+    allPublicProducts: Product[] | [];
+    loading: boolean;
+    setAllPublicPartners: (partners: Partner[]) => void;
+    setAllPublicProducts: (products: Product[]) => void;
+    setLoading: (loading: boolean) => void;
+}
+
 export const useUserStore = create<UserState>()((set) => ({
     user: null,
     admin: null,
@@ -76,4 +86,17 @@ export const useUserStore = create<UserState>()((set) => ({
             toast.error("Failed to Logout.")
         }
     },
+}))
+
+export const usePublicStore = create<PublicState>()((set) => ({
+    allPublicPartners: [],
+    allPublicProducts: [],
+    loading: true,
+    setAllPublicPartners: (partners) =>
+        set({ allPublicPartners: partners }),
+
+    setAllPublicProducts: (products) =>
+        set({ allPublicProducts: products }),
+
+    setLoading: (loading) => set({ loading }),
 }))

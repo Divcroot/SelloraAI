@@ -5,9 +5,14 @@ import { useUserStore } from "./store/store";
 import Admin from "./pages/Admin";
 import { Toaster } from "./components/ui/sonner";
 import Partner from "./pages/Partner";
+import { useGetAllPublicData } from "./hooks/useGetAllPublicData";
+import PublicPartner from "./pages/PublicPartner";
+import PublicProduct from "./pages/PublicProduct";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   useGetCurrentUser();
+  useGetAllPublicData();
 
   const user = useUserStore((s) => s.user);
   const loading = useUserStore((s) => s.loading);
@@ -35,9 +40,40 @@ const App = () => {
     <>
       <Toaster />
       <Routes>
-        <Route path="/" element={user?.role === "admin" ? <Navigate to='/admin' replace/> : <Home />} />
-        <Route path="/admin" element={user?.role === "admin" ? <Admin /> : <Navigate to='/' replace/>} />
-        <Route path="/partner" element={user?.role === "partner" ? <Partner /> : user?.role === "admin" ? <Navigate to='/admin' replace/> : <Navigate to='/' replace/>} />
+        <Route 
+        path="/" 
+        element={
+          user?.role === "admin"
+           ? <Navigate to='/admin' replace/>
+            : <Home />
+            } 
+            />
+
+        <Route 
+        path="/admin" 
+        element={
+          user?.role === "admin" 
+          ? <Admin /> 
+          : <Navigate to='/' replace/>
+          } 
+          />
+
+        <Route 
+        path="/partner" 
+        element={
+          user?.role === "partner" 
+          ? <Partner /> 
+          : user?.role === "admin"
+           ? <Navigate to='/admin' replace/>
+            : <Navigate to='/' replace/>
+            } 
+            />
+
+        <Route path="/partner/:slug" element={<PublicPartner />} />
+
+        <Route path="/product/:slug" element={<PublicProduct />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )

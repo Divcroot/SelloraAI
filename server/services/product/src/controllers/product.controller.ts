@@ -9,6 +9,7 @@ import {
     deleteProduct as deleteProductService,
     getAllPartnerProducts as getAllPartnerProductsService,
     updateProduct as updateProductService,
+    allPublicProducts as getAllPublicProductsService,
 } from "../services/product.service.js";
 
 export const createProduct = async (
@@ -113,3 +114,22 @@ export const deleteProduct = async (
         next(error);
     }
 };
+
+export const getAllPublicProducts = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<void> => {
+    try {
+        const result = await getAllPublicProductsService();
+
+        res.status(200).json({
+            success: true,
+            source: result.source,
+            products: result.products,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
