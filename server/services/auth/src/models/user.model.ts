@@ -73,7 +73,7 @@ const userSchema = new Schema<IUser>(
             slug: {
                 type: String,
                 unique: true,
-                index: true,
+                sparse: true,
             },
 
             bio: {

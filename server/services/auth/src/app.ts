@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { notFoundMiddleware } from "./middlewares/not-found.middleware.js";
-// import routes from "./routes/index.js";
+import routes from "./routes/index.js";
 
 const createApp = (): Express => {
     const app = express();
@@ -36,7 +36,7 @@ const createApp = (): Express => {
     });
 
     // API routes
-    // app.use("/", routes);
+    app.use("/", routes);
 
     // Error handling
     app.use(notFoundMiddleware);

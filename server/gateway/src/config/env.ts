@@ -7,6 +7,7 @@ interface Environment {
     CORS_ORIGIN: string;
 
     AUTH_SERVICE_URL: string;
+    PRODUCT_SERVICE_URL: string;
 }
 
 const getRequiredEnv = (key: string): string => {
@@ -51,4 +52,5 @@ export const env: Environment = {
     PORT: getPort(),
     CORS_ORIGIN: getRequiredEnv("CORS_ORIGIN"),
     AUTH_SERVICE_URL: getServiceUrl("AUTH_SERVICE_URL"),
+    PRODUCT_SERVICE_URL: getServiceUrl("PRODUCT_SERVICE_URL"),
 };

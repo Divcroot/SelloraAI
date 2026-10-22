@@ -10,7 +10,7 @@ export const errorMiddleware: ErrorRequestHandler = (
     _req: Request,
     res: Response,
 ): void => {
-    console.error("Gateway error:", error);
+    console.error("Auth Service error:", error);
 
     if (error instanceof AppError) {
         res.status(error.statusCode).json({

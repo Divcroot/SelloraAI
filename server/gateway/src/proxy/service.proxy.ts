@@ -10,28 +10,20 @@ const proxyWithUserId = (serviceUrl: string) => proxy(serviceUrl, {
     ) => {
         const userId = req.user?.userId;
 
-        const sessionCookie = req.headers.cookie;
-
-        proxyReqOpts.headers = {
-            ...proxyReqOpts.headers,
-
-            ...(userId
-                ? {
-                    "x-user-id":
-                        userId,
-                }
-                : {}),
-
-            ...(sessionCookie
-                ? {
-                    cookie:
-                        sessionCookie,
-                }
-                : {}),
-        };
+        if (userId) {
+            proxyReqOpts.headers = {
+                ...proxyReqOpts.headers,
+                ...(userId
+                    ? {
+                        "x-user-id": userId,
+                    }
+                    : {}),
+            };
+        }
 
         return proxyReqOpts;
     },
 });
 
 export const authServiceProxy = proxy(env.AUTH_SERVICE_URL);
+export const productServiceProxy = proxyWithUserId(env.PRODUCT_SERVICE_URL);

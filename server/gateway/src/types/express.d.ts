@@ -1,3 +1,10 @@
+declare module "../../../shared/redis/redis.js" {
+    import type Redis from "ioredis";
+
+    const redis: Redis;
+    export default redis;
+}
+
 declare global {
     namespace Express {
         interface Request {
@@ -5,7 +12,7 @@ declare global {
                 userId: string;
                 name: string;
                 email: string;
-                avatar: string;
+                role: string;
             };
         }
     }
