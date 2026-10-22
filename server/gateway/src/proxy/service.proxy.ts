@@ -27,4 +27,12 @@ const proxyWithUserId = (serviceUrl: string) => proxy(serviceUrl, {
 
 export const authServiceProxy = proxy(env.AUTH_SERVICE_URL);
 export const productServiceProxy = proxyWithUserId(env.PRODUCT_SERVICE_URL);
-export const publicProductServiceProxy = proxy(env.PRODUCT_SERVICE_URL);
+export const publicProductServiceProxy = proxy(env.PRODUCT_SERVICE_URL, {
+    filter: (req) => req.method === "GET" && req.path === "/all-public",
+    proxyReqOptDecorator: (proxyReqOpts) => {
+        if (proxyReqOpts.headers) {
+            delete proxyReqOpts.headers["x-user-id"];
+        }
+        return proxyReqOpts;
+    },
+});
