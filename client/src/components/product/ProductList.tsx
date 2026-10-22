@@ -49,22 +49,22 @@ const ProductList = ({
                     <div className="relative w-full sm:max-w-sm">
                         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
                         <Input
-                            className="h-11 rounded-xl border-white/10 bg-white/[0.04] pl-10 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                            className="h-11 rounded-xl border-white/10 bg-white/4 pl-10 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                             placeholder="Filter products..."
                             onChange={(e) => setQuery(e.target.value)}
                             value={query}
                         />
                     </div>
 
-                    <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-white/15 bg-white/[0.04] px-4 text-slate-200 hover:bg-white/10 hover:text-white">
+                    <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-white/15 bg-white/4 px-4 text-slate-200 hover:bg-white/10 hover:text-white">
                         <Filter className="size-4" />
                         Filter
                     </Button>
                 </div>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full min-w-[900px] border-collapse text-left">
-                        <thead className="bg-white/[0.025]">
+                    <table className="w-full min-w-225 border-collapse text-left">
+                        <thead className="bg-white/2.5">
                             <tr className="border-b border-white/10">
                                 <th className="px-5 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Product</th>
                                 <th className="px-4 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Price</th>
@@ -77,7 +77,7 @@ const ProductList = ({
                         </thead>
                         <tbody>
                             {filteredProducts.map((product, index) => (
-                                <tr key={index} className="border-b border-white/[0.06] transition-colors last:border-0 hover:bg-white/[0.035]">
+                                <tr key={index} className="border-b border-white/6 transition-colors last:border-0 hover:bg-white/[0.035]">
                                     <td className="px-5 py-4">
                                         <div className="flex min-w-0 items-center gap-3">
                                             <CategoryIcon
@@ -115,7 +115,7 @@ const ProductList = ({
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-end gap-1.5">
                                             {product.status === "published" && (
-                                                <Button variant="outline" size="sm" className="h-8 cursor-pointer rounded-lg border-white/10 bg-white/[0.03] px-2.5 text-xs text-slate-300 hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-200">
+                                                <Button variant="outline" size="sm" className="h-8 cursor-pointer rounded-lg border-white/10 bg-white/3 px-2.5 text-xs text-slate-300 hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-200">
                                                     <Share2 className="size-3.5" />
                                                     Share Link
                                                 </Button>

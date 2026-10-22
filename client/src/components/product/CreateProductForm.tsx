@@ -56,7 +56,7 @@ const CreateProductForm = ({
             {/* Header */}
             <div className="mb-7 flex items-center gap-4 sm:mb-8">
                 <button
-                    className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-slate-300 transition hover:border-indigo-400/40 hover:bg-indigo-500/10 hover:text-white"
+                    className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/4 text-slate-300 transition hover:border-indigo-400/40 hover:bg-indigo-500/10 hover:text-white"
                     onClick={onCancel}
                 >
                     <ArrowLeft className="size-4" />
@@ -86,7 +86,7 @@ const CreateProductForm = ({
                                 </Label>
 
                                 <Input
-                                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                                     id="title"
                                     placeholder="e.g. Advanced Metrics Dashboard"
                                     value={title}
@@ -100,7 +100,7 @@ const CreateProductForm = ({
                                     <span className="text-rose-400">*</span>
                                 </Label>
 
-                                <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                                <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                                     <span className="shrink-0 text-xs text-slate-500 sm:text-sm">sellora.ai/product/</span>
                                     <Input
                                         className="h-11 min-w-0 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -119,7 +119,7 @@ const CreateProductForm = ({
                                 </Label>
 
                                 <Textarea
-                                    className="min-h-32 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                                    className="min-h-32 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                                     id="desc"
                                     placeholder="Briefly describe the product..."
                                     rows={5}
@@ -143,7 +143,7 @@ const CreateProductForm = ({
                                     </Label>
 
                                     <Select value={type} onValueChange={(v) => setType(v as PRODUCT_TYPES)}>
-                                        <SelectTrigger className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-slate-200 focus:ring-indigo-400/20">
+                                        <SelectTrigger className="h-11 rounded-xl border-white/10 bg-white/4 text-slate-200 focus:ring-indigo-400/20">
                                             <SelectValue placeholder="Select category" />
                                         </SelectTrigger>
 
@@ -168,7 +168,7 @@ const CreateProductForm = ({
                                         <span className="text-rose-400">*</span>
                                     </Label>
 
-                                    <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                                    <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                                         <span className="text-slate-500">₹</span>
                                         <Input
                                             className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -207,14 +207,14 @@ const CreateProductForm = ({
                             <h2 className="text-base font-semibold tracking-wide text-white">Status</h2>
 
                             <RadioGroup className="flex flex-wrap gap-3" value={status} onValueChange={(v) => setStatus(v as PRODUCT_STATUSES)}>
-                                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
+                                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-4 py-3">
                                     <RadioGroupItem value="draft" id="draft" />
                                     <Label className="cursor-pointer text-sm text-slate-300" htmlFor="draft">
                                         Draft
                                     </Label>
                                 </div>
 
-                                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
+                                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-4 py-3">
                                     <RadioGroupItem value="published" id="published" />
                                     <Label className="cursor-pointer text-sm text-slate-300" htmlFor="published">
                                         Published
@@ -225,7 +225,7 @@ const CreateProductForm = ({
                     </div>
 
                     <div className="flex justify-end gap-3 pt-1">
-                        <Button className="rounded-xl border-white/15 bg-white/[0.04] text-slate-200 hover:bg-white/10 hover:text-white" disabled={loading} variant="outline" onClick={onCancel}>
+                        <Button className="rounded-xl border-white/15 bg-white/4 text-slate-200 hover:bg-white/10 hover:text-white" disabled={loading} variant="outline" onClick={onCancel}>
                             Cancel
                         </Button>
 

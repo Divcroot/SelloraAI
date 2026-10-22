@@ -43,21 +43,21 @@ const ProductLinksEditor = ({
             </div>
 
             {links.length === 0 && (
-                <p className="rounded-xl border border-dashed border-white/10 bg-white/[0.02] px-4 py-5 text-sm leading-6 text-slate-500">No links added yet. Add documentation, demo, or support links for customers.</p>
+                <p className="rounded-xl border border-dashed border-white/10 bg-white/2 px-4 py-5 text-sm leading-6 text-slate-500">No links added yet. Add documentation, demo, or support links for customers.</p>
             )}
 
             <div className="space-y-3">
                 {links.map((link, index) => (
-                    <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.025] p-3 sm:p-4" key={index}>
+                    <div className="space-y-3 rounded-xl border border-white/10 bg-white/2.5 p-3 sm:p-4" key={index}>
                         <Input
-                            className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                            className="h-11 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                             value={link.title}
                             onChange={(e) => updateLink(index, "title", e.target.value)}
                             placeholder="Link Title (e.g. Documentation)"
                         />
 
                         <div className="flex min-w-0 items-center gap-2">
-                            <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                            <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                                 <Link2 className="size-4 shrink-0 text-slate-500" />
                                 <Input
                                     className="h-11 min-w-0 border-0 bg-transparent px-0 text-white shadow-none placeholder:text-slate-500 focus-visible:border-transparent focus-visible:ring-0"
