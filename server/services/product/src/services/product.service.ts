@@ -81,7 +81,7 @@ export const createProduct = async (
     });
 
     await redis.del(`products:${partnerId.trim()}`);
-    
+
     if (product.status === "published") {
         await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
     }
@@ -164,6 +164,8 @@ export const updateProduct = async (
         throw new AppError("Product not found", 404);
     }
 
+    const wasPublished = product.status === "published";
+
     if (input.slug !== undefined) {
         if (typeof input.slug !== "string" || !input.slug.trim()) {
             throw new AppError("Slug cannot be empty", 400);
@@ -196,8 +198,8 @@ export const updateProduct = async (
     const updatedProduct = await product.save();
 
     await redis.del(`products:${normalizedPartnerId}`);
-    
-    if (product.status === "published") {
+
+    if (wasPublished || product.status === "published") {
         await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
     }
 
@@ -238,7 +240,7 @@ export const deleteProduct = async (
     }
 
     await redis.del(`products:${normalizedPartnerId}`);
-    
+
     await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
 
     return { deleted: true };
@@ -254,9 +256,10 @@ export const allPublicProducts = async (): Promise<PublicProductsResult> => {
         };
     }
 
-    const products = await Product.find({
-        status: "published"
-    }).sort({ createdAt: -1 });
+    const products = await Product.find({ status: "published" })
+        .select("_id partnerId title slug description type price status createdAt")
+        .sort({ createdAt: -1 })
+        .lean();
 
     await redis.set(
         PUBLIC_PRODUCTS_CACHE_KEY,
