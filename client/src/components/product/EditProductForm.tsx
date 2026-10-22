@@ -71,13 +71,13 @@ const EditProductForm = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-rose-400/20 bg-rose-500/60 px-4 text-rose-300 hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-200" disabled={loading} onClick={() => onDelete(product)}>
+          <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-rose-400/20 bg-rose-500/6 px-4 text-rose-300 hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-200" disabled={loading} onClick={() => onDelete(product)}>
             <Trash2 className="size-4" />
             Delete Product
           </Button>
 
           <Button onClick={handleToggleStatus} disabled={loading} className={isPublished
-            ? "h-11 cursor-pointer rounded-xl border border-amber-400/20 bg-amber-500/6 px-4 text-amber-200 hover:bg-amber-500/15"
+            ? "h-11 cursor-pointer rounded-xl border border-amber-400/20 bg-amber-500/8 px-4 text-amber-200 hover:bg-amber-500/15"
             : "h-11 cursor-pointer rounded-xl bg-linear-to-r from-indigo-500 via-violet-500 to-fuchsia-500 px-5 font-semibold text-white shadow-[0_0_30px_-8px_rgba(139,92,246,0.7)] ring-1 ring-white/15 transition hover:scale-[1.02] hover:shadow-[0_0_40px_-8px_rgba(139,92,246,0.85)]"}>
             {isPublished ? "Move to Draft" : "Publish Product"}
           </Button>
