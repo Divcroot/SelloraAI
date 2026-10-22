@@ -53,7 +53,7 @@ const ProfilePanel = ({
         </div>
 
         {partner?.partnerProfile?.slug && (
-          <Button variant='outline' className="shrink-0 rounded-xl border-white/15 bg-white/[0.04] text-slate-200 hover:bg-white/10 hover:text-white">
+          <Button variant='outline' className="shrink-0 rounded-xl border-white/15 bg-white/4 text-slate-200 hover:bg-white/10 hover:text-white">
             <ExternalLink className="size-4" />
             View Public Profile
           </Button>
@@ -72,7 +72,7 @@ const ProfilePanel = ({
                 </Label>
 
                 <Input
-                  className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                  className="h-11 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                   id="name"
                   value={form.name}
                   onChange={(e) => updateUser("name", e.target.value)}
@@ -85,7 +85,7 @@ const ProfilePanel = ({
                 </Label>
 
                 <Input id="email"
-                  className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-slate-400 disabled:opacity-70"
+                  className="h-11 rounded-xl border-white/10 bg-white/4 text-slate-400 disabled:opacity-70"
                   value={form.email}
                   type="email"
                   disabled
@@ -103,7 +103,7 @@ const ProfilePanel = ({
                 <span className="text-rose-400">*</span>
               </Label>
 
-              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+              <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                 <span className="shrink-0 text-xs text-slate-500 sm:text-sm">sellora.ai/profile/</span>
                 <Input
                   className="h-11 min-w-0 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -128,7 +128,7 @@ const ProfilePanel = ({
               </div>
 
               <Textarea
-                className="min-h-32 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                className="min-h-32 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                 id="bio"
                 rows={4}
                 maxLength={BIO_MAX_LENGTH}
@@ -142,7 +142,7 @@ const ProfilePanel = ({
                 Website
               </Label>
 
-              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                 <Globe className="size-4 shrink-0 text-slate-500" />
                 <Input
                   className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -163,7 +163,7 @@ const ProfilePanel = ({
                   Youtube
                 </Label>
 
-                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                   <FaYoutube className="size-4 shrink-0 text-rose-400" />
                   <Input
                     className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -179,7 +179,7 @@ const ProfilePanel = ({
                   Instagram
                 </Label>
 
-                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                   <FaInstagram className="size-4 shrink-0 text-fuchsia-400" />
                   <Input
                     className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -195,7 +195,7 @@ const ProfilePanel = ({
                   Linkedin
                 </Label>
 
-                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                   <FaLinkedin className="size-4 shrink-0 text-sky-400" />
                   <Input
                     className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -211,7 +211,7 @@ const ProfilePanel = ({
                   Github
                 </Label>
 
-                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                   <FaGithub className="size-4 shrink-0 text-slate-300" />
                   <Input
                     className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -228,12 +228,12 @@ const ProfilePanel = ({
             <h2 className="border-b border-white/10 pb-3 text-base font-semibold tracking-wide text-white">Payment Details</h2>
 
             <RadioGroup className="grid gap-3 sm:grid-cols-2" value={form.paymentDetails.method} onValueChange={(value) => updatePayment("method", value)}>
-              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-4 py-3">
                 <RadioGroupItem value="upi" id="upi" />
                 <label className="cursor-pointer text-sm font-medium text-slate-200" htmlFor="upi">UPI</label>
               </div>
 
-              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
+              <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/4 px-4 py-3">
                 <RadioGroupItem value="bank" id="bank" />
                 <label className="cursor-pointer text-sm font-medium text-slate-200" htmlFor="bank">BANK</label>
               </div>
@@ -248,7 +248,7 @@ const ProfilePanel = ({
                   </Label>
 
                   <Input
-                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                     id="upiId"
                     value={form.paymentDetails.upiId ?? ""}
                     onChange={(e) => updatePayment("upiId", e.target.value)}
@@ -262,7 +262,7 @@ const ProfilePanel = ({
                   </Label>
 
                   <Input
-                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                     id="accountHolderName"
                     value={form.paymentDetails.accountHolderName}
                     onChange={(e) => updatePayment("accountHolderName", e.target.value)}
@@ -278,7 +278,7 @@ const ProfilePanel = ({
                   </Label>
 
                   <Input
-                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                     id="accountHolderName"
                     value={form.paymentDetails.accountHolderName}
                     onChange={(e) => updatePayment("accountHolderName", e.target.value)}
@@ -292,7 +292,7 @@ const ProfilePanel = ({
                   </Label>
 
                   <Input
-                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                     id="accountNumber"
                     value={form.paymentDetails.accountNumber}
                     onChange={(e) => updatePayment("accountNumber", e.target.value)}
@@ -306,7 +306,7 @@ const ProfilePanel = ({
                   </Label>
 
                   <Input
-                    className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                    className="h-11 rounded-xl border-white/10 bg-white/4 text-white focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                     id="ifscCode"
                     value={form.paymentDetails.ifscCode}
                     onChange={(e) => updatePayment("ifscCode", e.target.value)}
@@ -316,7 +316,7 @@ const ProfilePanel = ({
             )}
           </section>
 
-          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+          <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-slate-400">Status:</span>
               <Badge className={form.isActive
@@ -331,7 +331,7 @@ const ProfilePanel = ({
           <div className="flex flex-col-reverse gap-3 border-t border-white/10 pt-6 sm:flex-row sm:justify-end">
             <Button 
             variant="outline"
-            className="rounded-xl border-white/15 bg-white/[0.04] text-slate-200 hover:bg-white/10 hover:text-white sm:min-w-28"
+            className="rounded-xl border-white/15 bg-white/4 text-slate-200 hover:bg-white/10 hover:text-white sm:min-w-28"
             onClick={onCancel}
              disabled={saving}
              >

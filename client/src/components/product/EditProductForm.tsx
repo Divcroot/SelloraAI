@@ -71,13 +71,13 @@ const EditProductForm = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-rose-400/20 bg-rose-500/[0.06] px-4 text-rose-300 hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-200" disabled={loading} onClick={() => onDelete(product)}>
+          <Button variant="outline" className="h-11 cursor-pointer rounded-xl border-rose-400/20 bg-rose-500/60 px-4 text-rose-300 hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-200" disabled={loading} onClick={() => onDelete(product)}>
             <Trash2 className="size-4" />
             Delete Product
           </Button>
 
           <Button onClick={handleToggleStatus} disabled={loading} className={isPublished
-            ? "h-11 cursor-pointer rounded-xl border border-amber-400/20 bg-amber-500/[0.08] px-4 text-amber-200 hover:bg-amber-500/15"
+            ? "h-11 cursor-pointer rounded-xl border border-amber-400/20 bg-amber-500/6 px-4 text-amber-200 hover:bg-amber-500/15"
             : "h-11 cursor-pointer rounded-xl bg-linear-to-r from-indigo-500 via-violet-500 to-fuchsia-500 px-5 font-semibold text-white shadow-[0_0_30px_-8px_rgba(139,92,246,0.7)] ring-1 ring-white/15 transition hover:scale-[1.02] hover:shadow-[0_0_40px_-8px_rgba(139,92,246,0.85)]"}>
             {isPublished ? "Move to Draft" : "Publish Product"}
           </Button>
@@ -101,7 +101,7 @@ const EditProductForm = ({
                 </Label>
 
                 <Input
-                  className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                  className="h-11 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                   id="title"
                   placeholder="e.g. Advanced Metrics Dashboard"
                   value={title}
@@ -116,7 +116,7 @@ const EditProductForm = ({
                 </Label>
 
                 <Textarea
-                  className="min-h-32 rounded-xl border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
+                  className="min-h-32 rounded-xl border-white/10 bg-white/4 text-white placeholder:text-slate-500 focus-visible:border-indigo-400/60 focus-visible:ring-indigo-400/20"
                   id="desc"
                   placeholder="Briefly describe the product..."
                   rows={5}
@@ -140,7 +140,7 @@ const EditProductForm = ({
                   </Label>
 
                   <Select value={type} onValueChange={(v) => setType(v as PRODUCT_TYPES)}>
-                    <SelectTrigger className="h-11 rounded-xl border-white/10 bg-white/[0.04] text-slate-200 focus:ring-indigo-400/20">
+                    <SelectTrigger className="h-11 rounded-xl border-white/10 bg-white/4 text-slate-200 focus:ring-indigo-400/20">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
 
@@ -166,7 +166,7 @@ const EditProductForm = ({
                     <span className="text-rose-400">*</span>
                   </Label>
 
-                  <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
+                  <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-3 focus-within:border-indigo-400/60 focus-within:ring-2 focus-within:ring-indigo-400/20">
                     <span className="text-slate-500">₹</span>
                     <Input
                       className="h-11 border-0 bg-transparent px-0 text-white shadow-none focus-visible:border-transparent focus-visible:ring-0"
@@ -203,7 +203,7 @@ const EditProductForm = ({
           </div>
 
           <div className="flex flex-col-reverse justify-end gap-3 pt-1 sm:flex-row">
-            <Button className="h-11 cursor-pointer rounded-xl border-white/15 bg-white/[0.04] px-5 text-slate-200 hover:bg-white/10 hover:text-white" disabled={loading} variant="outline" onClick={onCancel}>
+            <Button className="h-11 cursor-pointer rounded-xl border-white/15 bg-white/4 px-5 text-slate-200 hover:bg-white/10 hover:text-white" disabled={loading} variant="outline" onClick={onCancel}>
               Cancel
             </Button>
 

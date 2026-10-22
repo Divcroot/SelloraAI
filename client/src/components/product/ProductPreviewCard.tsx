@@ -42,7 +42,7 @@ const ProductPreviewCard = ({
                     </Badge>
                 </div>
 
-                <h3 className="break-words text-xl font-semibold tracking-tight text-white">{title || "Untitled Product"}</h3>
+                <h3 className="wrap-break-word text-xl font-semibold tracking-tight text-white">{title || "Untitled Product"}</h3>
 
                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-indigo-300">{type.toUpperCase() ?? "No category selected"}</p>
 
