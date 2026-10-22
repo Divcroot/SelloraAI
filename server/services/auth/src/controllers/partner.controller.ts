@@ -6,6 +6,7 @@ import type {
 
 import { AppError } from "../error/AppError.js";
 import {
+    getAllPublicPartner as getAllPublicPartnerService,
     getPartner as getPartnerService,
     updatePartner as updatePartnerService,
     type PartnerUpdate,
@@ -154,6 +155,24 @@ const parsePartnerUpdate = (body: unknown): PartnerUpdate => {
     }
 
     return update;
+};
+
+export const getAllPublicPartner = async (
+    _req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<void> => {
+    try {
+        const result = await getAllPublicPartnerService();
+
+        res.status(200).json({
+            success: true,
+            source: result.source,
+            partners: result.partners,
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 export const getPartner = async (

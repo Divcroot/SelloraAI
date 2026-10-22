@@ -6,6 +6,7 @@ import { useState } from "react";
 import { CategoryIcon } from "./ProductMetaType";
 import { Badge } from "../ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { toast } from "sonner";
 
 interface ProductListProps {
     products: Product[];
@@ -24,6 +25,17 @@ const ProductList = ({
     const [query, setQuery] = useState<string>("");
 
     const filteredProducts = products.filter((product) => product.title.toLowerCase().includes(query.toLowerCase()));
+
+    const handleShare = async (slug: string) => {
+        const url = `${window.location.origin}/product/${slug}`;
+
+        try {
+            await navigator.clipboard.writeText(url);
+            toast.success("Product Link copied!");
+        } catch (error) {
+            toast.error("Failed to copy Product Link.");
+        }
+    }
 
     return (
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
@@ -115,14 +127,14 @@ const ProductList = ({
                                     <td className="px-4 py-4">
                                         <div className="flex items-center justify-end gap-1.5">
                                             {product.status === "published" && (
-                                                <Button variant="outline" size="sm" className="h-8 cursor-pointer rounded-lg border-white/10 bg-white/3 px-2.5 text-xs text-slate-300 hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-200">
+                                                <Button onClick={() => handleShare(product.slug)} variant="outline" size="sm" className="h-8 cursor-pointer rounded-lg border-white/10 bg-white/3 px-2.5 text-xs text-slate-300 hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-200">
                                                     <Share2 className="size-3.5" />
                                                     Share Link
                                                 </Button>
                                             )}
 
                                             {product.status === "published" && (
-                                                <Button variant="ghost" size="icon" title="Open product" className="size-8 cursor-pointer rounded-lg text-slate-400 hover:bg-white/10 hover:text-white">
+                                                <Button onClick={() => window.open(`/product/${product.slug}`, "_blank", "noopener noreferrer")}  variant="ghost" size="icon" title="Open product" className="size-8 cursor-pointer rounded-lg text-slate-400 hover:bg-white/10 hover:text-white">
                                                     <ExternalLink className="size-4" />
                                                 </Button>
                                             )}

@@ -5,6 +5,8 @@ import { AppError } from "../error/AppError.js";
 import { Product, type IProduct } from "../models/product.model.js";
 
 const PRODUCT_CACHE_TTL = 600;
+const PUBLIC_PRODUCTS_CACHE_TTL = 600;
+const PUBLIC_PRODUCTS_CACHE_KEY = "public:products";
 
 export type CreateProductResult =
     | { kind: "duplicate" }
@@ -21,6 +23,11 @@ export type UpdateProductResult =
 
 export interface DeleteProductResult {
     deleted: true;
+}
+
+interface PublicProductsResult {
+    products: ProductInput[];
+    source: "Redis" | "Database";
 }
 
 interface ProductInput {
@@ -74,6 +81,10 @@ export const createProduct = async (
     });
 
     await redis.del(`products:${partnerId.trim()}`);
+    
+    if (product.status === "published") {
+        await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
+    }
 
     return { kind: "created", product };
 };
@@ -185,6 +196,10 @@ export const updateProduct = async (
     const updatedProduct = await product.save();
 
     await redis.del(`products:${normalizedPartnerId}`);
+    
+    if (product.status === "published") {
+        await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
+    }
 
     return {
         kind: "updated",
@@ -223,6 +238,35 @@ export const deleteProduct = async (
     }
 
     await redis.del(`products:${normalizedPartnerId}`);
+    
+    await redis.del(PUBLIC_PRODUCTS_CACHE_KEY);
 
     return { deleted: true };
 };
+
+export const allPublicProducts = async (): Promise<PublicProductsResult> => {
+    const cachedProducts = await redis.get(PUBLIC_PRODUCTS_CACHE_KEY);
+
+    if (cachedProducts) {
+        return {
+            products: JSON.parse(cachedProducts) as ProductInput[],
+            source: "Redis",
+        };
+    }
+
+    const products = await Product.find({
+        status: "published"
+    }).sort({ createdAt: -1 });
+
+    await redis.set(
+        PUBLIC_PRODUCTS_CACHE_KEY,
+        JSON.stringify(products),
+        "EX",
+        PUBLIC_PRODUCTS_CACHE_TTL,
+    );
+
+    return {
+        products,
+        source: "Database",
+    };
+}
