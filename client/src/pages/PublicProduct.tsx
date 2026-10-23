@@ -101,10 +101,13 @@ const PublicProduct = () => {
   const metaType = PRODUCT_META_TYPES[product.type];
 
   const handlePay = async () => {
+    if (!buyerName.trim() || !buyerEmail.trim()) return;
     setProcessing(true);
-    setPurchasedLinks(product?.links);
-    setIsBuyOpen(false);
-    setProcessing(false);
+    try {
+      setIsBuyOpen(false);
+    } finally {
+      setProcessing(false);
+    }
   }
 
   return (
@@ -162,7 +165,7 @@ const PublicProduct = () => {
           <div className="rounded-3xl border border-white/10 bg-[#0b0d1f]/80 p-6 shadow-[0_18px_55px_-35px_rgba(99,102,241,0.4)] ring-1 ring-white/5 backdrop-blur-xl sm:p-8">
             <h2 className="flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
               <Link2 className="size-5 text-indigo-300" />
-              Included Resouces
+              Included Resources
             </h2>
 
             {purchasedLinks && (
@@ -194,7 +197,10 @@ const PublicProduct = () => {
                     </div>
 
                     {unlocked ? (
-                      <Button className="cursor-pointer rounded-lg bg-indigo-500 px-4 text-white hover:bg-indigo-400">
+                      <Button
+                        className="cursor-pointer rounded-lg bg-indigo-500 px-4 text-white hover:bg-indigo-400"
+                        onClick={() => window.open(unlocked.url, "_blank", "noopener,noreferrer")}
+                      >
                         Download
                       </Button>
                     ) : (

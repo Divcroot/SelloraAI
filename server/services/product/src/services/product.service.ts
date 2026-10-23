@@ -257,7 +257,7 @@ export const allPublicProducts = async (): Promise<PublicProductsResult> => {
     }
 
     const products = await Product.find({ status: "published" })
-        .select("_id partnerId title slug description type price links status createdAt")
+        .select("_id partnerId title slug description type price status createdAt links.title")
         .sort({ createdAt: -1 })
         .lean();
 
