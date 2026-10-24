@@ -205,6 +205,13 @@ const PublicProduct = () => {
     } catch (error) {
       toast.error("Download failed");
     }
+    if (!buyerName.trim() || !buyerEmail.trim()) return;
+    setProcessing(true);
+    try {
+      setIsBuyOpen(false);
+    } finally {
+      setProcessing(false);
+    }
   }
 
   return (
@@ -297,6 +304,7 @@ const PublicProduct = () => {
                       <Button
                         className="cursor-pointer rounded-lg bg-indigo-500 px-4 text-white hover:bg-indigo-400"
                         onClick={() => handleDownload(unlocked.url)}
+                        onClick={() => window.open(unlocked.url, "_blank", "noopener,noreferrer")}
                       >
                         Download
                       </Button>
