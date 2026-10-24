@@ -31,6 +31,7 @@ interface PartnerResult {
 export interface PublicPartner {
     _id: string;
     name: string;
+    email: string;
     isActive: boolean;
     partnerProfile: {
         slug: string;
@@ -149,13 +150,14 @@ export const getAllPublicPartner = async (): Promise<PublicPartnersResult> => {
         "partnerProfile.slug": { $regex: /\S/ },
     })
         .select(
-            "_id name isActive partnerProfile.slug partnerProfile.bio partnerProfile.website partnerProfile.socialLinks",
+            "_id name email isActive partnerProfile.slug partnerProfile.bio partnerProfile.website partnerProfile.socialLinks",
         )
         .lean();
 
     const partners: PublicPartner[] = partnerDocuments.map((partner) => ({
         _id: partner._id.toString(),
         name: partner.name,
+        email: partner.email,
         isActive: partner.isActive,
         partnerProfile: {
             slug: partner.partnerProfile?.slug ?? "",
@@ -269,4 +271,30 @@ export const updatePartner = async (
 
         throw error;
     }
+};
+
+export const updatePartnerSales = async (
+    partnerId: string,
+    amount: number,
+) => {
+    const partner = await User.findOne({
+        _id: partnerId,
+        role: "partner",
+    });
+
+    if (!partner) {
+        throw new AppError("Partner not found", 404);
+    }
+
+    partner.totalSales += 1;
+    partner.totalRevenue += amount * 0.95;
+
+    await partner.save();
+
+    await Promise.all([
+        redis.del(PUBLIC_PARTNERS_CACHE_KEY),
+        redis.del(`partner:${partnerId}`),
+    ]);
+
+    return partner;
 };

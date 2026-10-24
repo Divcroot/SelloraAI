@@ -10,6 +10,8 @@ import type { ProductLinkItem } from "@/components/product/types";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import api from "@/utils/axios";
 
 const PublicProduct = () => {
 
@@ -101,6 +103,108 @@ const PublicProduct = () => {
   const metaType = PRODUCT_META_TYPES[product.type];
 
   const handlePay = async () => {
+    if (!buyerName.trim() || !buyerEmail.trim()) {
+      toast.error("Please enter your name and email.");
+      return;
+    }
+
+    setProcessing(true);
+
+    try {
+      const { data } = await api.post("/api/order/create", {
+        productId: product._id,
+        partnerId: product.partnerId,
+        amount: Number(product.price),
+        customerName: buyerName,
+        customerEmail: buyerEmail,
+        partnerEmail: creator?.email,
+        productTitle: product.title,
+        links: product.links,
+      });
+
+      if (!data.success) {
+        toast.error("Order creation failed");
+        setProcessing(false);
+        return;
+      }
+
+      const razorpay = new window.Razorpay({
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: "SelloraAI",
+        description: product.title,
+        order_id: data.razorpayOrderId,
+
+        prefill: {
+          name: buyerName,
+          email: buyerEmail,
+        },
+
+        theme: {
+          color: "#4f46e5",
+        },
+
+        modal: {
+          ondismiss: () => {
+            setProcessing(false);
+          },
+        },
+
+        handler: async (response) => {
+          try {
+            const { data: verification } = await api.post(
+              "/api/order/verify",
+              response,
+            );
+
+            if (verification.success) {
+              toast.success("Payment successful!");
+              setPurchasedLinks(product.links ?? []);
+              setIsBuyOpen(false);
+            }
+          } catch {
+            toast.error(
+              "Payment verification failed. Please check your order status.",
+            );
+          } finally {
+            setProcessing(false);
+          }
+        },
+      });
+
+      razorpay.on("payment.failed", () => {
+        toast.error("Payment failed. Please try again.");
+        setProcessing(false);
+      });
+
+      razorpay.open();
+    } catch {
+      toast.error("Unable to create order. Please try again.");
+      setProcessing(false);
+    }
+  };
+
+  const handleDownload = async (url: string) => {
+    try {
+      const resposne = await api.post("/api/public-product/download", {url}, {
+        responseType: "blob"
+      });
+
+      const blobUrl = window.URL.createObjectURL(resposne.data);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "product";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      window.URL.revokeObjectURL(blobUrl);
+
+    } catch (error) {
+      toast.error("Download failed");
+    }
     if (!buyerName.trim() || !buyerEmail.trim()) return;
     setProcessing(true);
     try {
@@ -199,6 +303,7 @@ const PublicProduct = () => {
                     {unlocked ? (
                       <Button
                         className="cursor-pointer rounded-lg bg-indigo-500 px-4 text-white hover:bg-indigo-400"
+                        onClick={() => handleDownload(unlocked.url)}
                         onClick={() => window.open(unlocked.url, "_blank", "noopener,noreferrer")}
                       >
                         Download
