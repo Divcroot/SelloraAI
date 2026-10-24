@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
     authServiceProxy,
+    orderServiceProxy,
     productServiceProxy,
     publicProductServiceProxy,
 } from "../proxy/service.proxy.js";
@@ -18,6 +19,9 @@ router.get("/user/me", protect, getCurrentUser);
 
 //Product routes
 router.use("/product", protect, productServiceProxy);
+
+//Order routes
+router.use("/order", orderServiceProxy);
 
 //Public Product routes
 router.use("/public-product", publicProductServiceProxy);

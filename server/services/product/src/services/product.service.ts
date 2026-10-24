@@ -257,7 +257,7 @@ export const allPublicProducts = async (): Promise<PublicProductsResult> => {
     }
 
     const products = await Product.find({ status: "published" })
-        .select("_id partnerId title slug description type price status createdAt links.title")
+        .select("_id partnerId title slug description type price status createdAt links")
         .sort({ createdAt: -1 })
         .lean();
 
@@ -273,3 +273,69 @@ export const allPublicProducts = async (): Promise<PublicProductsResult> => {
         source: "Database",
     };
 }
+
+export const updateSales = async (
+    productId: string,
+    amount: number,
+) => {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+        throw new AppError("Product not found", 404);
+    }
+
+    product.totalSales += 1;
+    product.totalRevenue += amount * 0.95;
+
+    await product.save();
+
+    await Promise.all([
+        redis.del(PUBLIC_PRODUCTS_CACHE_KEY),
+        redis.del(`products:${product.partnerId}`),
+    ]);
+
+    return product;
+};
+
+export const handleDownload = async (url: string) => {
+    let parsedUrl: URL;
+
+    try {
+        parsedUrl = new URL(url);
+    } catch {
+        throw new AppError("Invalid URL", 400);
+    }
+
+    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+        throw new AppError("Only HTTP and HTTPS URLs are allowed", 400);
+    }
+
+    if (
+        !parsedUrl.hostname ||
+        parsedUrl.username ||
+        parsedUrl.password ||
+        parsedUrl.hostname === "localhost" ||
+        parsedUrl.hostname.endsWith(".localhost") ||
+        parsedUrl.hostname.endsWith(".local")
+    ) {
+        throw new AppError("Invalid URL host", 400);
+    }
+
+    let response: Response;
+
+    try {
+        response = await fetch(parsedUrl, {
+            signal: AbortSignal.timeout(30_000),
+            redirect: "error",
+        });
+    } catch {
+        throw new AppError("Unable to fetch file", 502);
+    }
+
+    if (!response.ok) {
+        await response.body?.cancel();
+        throw new AppError("Unable to fetch file", 502);
+    }
+
+    return response;
+};

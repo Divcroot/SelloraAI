@@ -6,6 +6,7 @@ import {
     getAllPublicPartner,
     getPartner,
     updatePartner,
+    updatePartnerSales,
 } from "../controllers/partner.controller.js";
 
 const router = Router();
@@ -16,5 +17,6 @@ router.get("/admin", getAdmin);
 router.get("/partners", getAllPublicPartner);
 router.get("/partner", getPartner);
 router.patch("/partner", updatePartner);
+router.patch("/partner/update-sales", updatePartnerSales);
 
 export default router;

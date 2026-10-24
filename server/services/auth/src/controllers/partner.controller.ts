@@ -9,6 +9,7 @@ import {
     getAllPublicPartner as getAllPublicPartnerService,
     getPartner as getPartnerService,
     updatePartner as updatePartnerService,
+    updatePartnerSales as updatePartnerSalesService,
     type PartnerUpdate,
 } from "../services/partner.service.js";
 
@@ -229,3 +230,33 @@ export const updatePartner = async (
         next(error);
     }
 };
+
+export const updatePartnerSales = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<void> => {
+    try {
+        const { partnerId, amount } = req.body;
+
+        if (!partnerId || amount === undefined || amount === null) {
+            throw new AppError("Partner id and amount are required", 400);
+        }
+
+        const partner = await updatePartnerSalesService(
+            partnerId,
+            Number(amount),
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Partner sales updated",
+            totalSales: partner.totalSales,
+            totalRevenue: partner.totalRevenue,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
