@@ -5,6 +5,7 @@ import { env } from "../config/env.js";
 import { razorpay } from "../config/razorpay.js";
 import { Order } from "../models/order.model.js";
 import { createHmac } from "node:crypto";
+import redis from "../../../../shared/redis/redis.js";
 
 interface CreateOrderInput {
     productId: string;
@@ -25,6 +26,12 @@ interface VerifyPaymentData {
     razorpay_payment_id: string;
     razorpay_signature: string;
 }
+
+const ORDERS_CACHE_KEY = "orders:all";
+
+const invalidateOrdersCache = async () => {
+    await redis.del(ORDERS_CACHE_KEY);
+};
 
 export const createOrder = async (input: CreateOrderInput) => {
     const {
@@ -81,6 +88,8 @@ export const createOrder = async (input: CreateOrderInput) => {
         partnerAmount,
         adminAmount,
     });
+
+    await invalidateOrdersCache();
 
     return {
         orderId: order._id,
@@ -145,5 +154,37 @@ export const verifyPayment = async (
         },
     );
 
+    await invalidateOrdersCache();
+
     return order;
+};
+
+export const getAllOrders = async () => {
+    const cachedOrders = await redis.get(ORDERS_CACHE_KEY);
+
+    if (cachedOrders) {
+        return {
+            source: "Cached",
+            orders: JSON.parse(cachedOrders),
+        };
+    }
+
+    const orders = await Order.find()
+        .select(
+            "_id productId partnerId productTitle productPrice customerName customerEmail partnerEmail paymentStatus partnerAmount adminAmount createdAt"
+        )
+        .sort({ createdAt: -1 })
+        .lean();
+
+    await redis.set(
+        ORDERS_CACHE_KEY,
+        JSON.stringify(orders),
+        "EX",
+        600,
+    );
+
+    return {
+        source: "Database",
+        orders,
+    };
 };

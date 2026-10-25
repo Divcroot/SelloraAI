@@ -6,6 +6,7 @@ import { usePublicStore } from "@/store/store";
 export const useGetAllPublicData = () => {
     const setAllPublicPartners = usePublicStore((s) => s.setAllPublicPartners);
     const setAllPublicProducts = usePublicStore((s) => s.setAllPublicProducts);
+    const setAllOrders = usePublicStore((s) => s.setAllOrders);
     const setLoading = usePublicStore((s) => s.setLoading);
 
     useEffect(() => {
@@ -34,13 +35,24 @@ export const useGetAllPublicData = () => {
             }
         }
 
+        const getAllOrders = async () => {
+            try {
+                const { data } = await api.get('/api/order/all', { signal });
+                setAllOrders(data.success ? data.orders : []);
+            } catch (error) {
+                if (axios.isCancel(error)) return;
+                console.error('client all orders fetching error: ', error);
+                setAllOrders([]);
+            }
+        }
+
         const init = async () => {
-            await Promise.allSettled([getAllPartners(), getAllProducts(),]);
+            await Promise.allSettled([getAllPartners(), getAllProducts(), getAllOrders()]);
             if (!signal.aborted) setLoading(false);
         }
 
         init();
 
         return () => controller.abort();
-    }, [setAllPublicPartners, setAllPublicProducts, setLoading]);
+    }, [setAllPublicPartners, setAllPublicProducts, setAllOrders, setLoading]);
 }

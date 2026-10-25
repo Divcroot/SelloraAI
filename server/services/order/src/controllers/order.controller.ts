@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import {
     createOrder as createOrderService,
     verifyPayment as verifyPaymentService,
+    getAllOrders as getAllOrdersService,
 } from "../services/order.service.js";
 import { AppError } from "../error/AppError.js";
 
@@ -54,6 +55,24 @@ export const verifyPayment = async (
             success: true,
             message: "Payment verified successfully",
             order,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getAllOrders = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { source, orders } = await getAllOrdersService();
+
+        res.status(200).json({
+            success: true,
+            source,
+            orders,
         });
     } catch (error) {
         next(error);
