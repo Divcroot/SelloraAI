@@ -147,7 +147,7 @@ export const updateProductSales = async (
         const { productId, amount } = req.body;
 
         if (!productId || amount === undefined || amount === null) {
-            throw new AppError("Partner id and amount are required", 400);
+            throw new AppError("Product id and amount are required", 400);
         }
 
         const product = await updateProductSalesService(

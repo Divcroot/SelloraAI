@@ -47,6 +47,22 @@ export interface Partner {
     updatedAt: string;
 }
 
+export interface Order {
+    _id: string;
+    productId: string;
+    partnerId: string;
+    productTitle: string;
+    productPrice: number;
+    customerName: string;
+    customerEmail: string;
+    partnerEmail: string;
+    paymentStatus: "pending" | "failed" | "success";
+    partnerAmount: number;
+    adminAmount: number;
+    createdAt: Date;
+    updatedAt?: Date;
+}
+
 interface UserState {
     user: User | null;
     admin: Admin | null;
@@ -62,9 +78,11 @@ interface UserState {
 interface PublicState {
     allPublicPartners: Partner[] | [];
     allPublicProducts: Product[] | [];
+    allOrders: Order[] | [];
     loading: boolean;
     setAllPublicPartners: (partners: Partner[]) => void;
     setAllPublicProducts: (products: Product[]) => void;
+    setAllOrders: (orders: Order[]) => void;
     setLoading: (loading: boolean) => void;
 }
 
@@ -91,12 +109,16 @@ export const useUserStore = create<UserState>()((set) => ({
 export const usePublicStore = create<PublicState>()((set) => ({
     allPublicPartners: [],
     allPublicProducts: [],
+    allOrders: [],
     loading: true,
     setAllPublicPartners: (partners) =>
         set({ allPublicPartners: partners }),
 
     setAllPublicProducts: (products) =>
         set({ allPublicProducts: products }),
+
+    setAllOrders: (orders) =>
+        set({ allOrders: orders }),
 
     setLoading: (loading) => set({ loading }),
 }))
