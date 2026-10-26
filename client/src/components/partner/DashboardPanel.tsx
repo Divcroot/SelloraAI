@@ -5,6 +5,7 @@ import { ExternalLink, IndianRupee, Package, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { CategoryIcon } from "../product/ProductMetaType";
 import { Button } from "../ui/button";
+import AIAnalytics from "./AIAnalytics";
 
 interface StatsCardProps {
   label: string;
@@ -58,6 +59,36 @@ const DashboardPanel = () => {
 
   const activeProducts = partnerProducts.length;
 
+  const analyticsData = {
+    partner: {
+      id: partner?._id ?? "",
+      name: partner?.name ?? "",
+    },
+    summary: {
+      totalRevenue: partner?.totalRevenue ?? 0,
+      totalSales: partner?.totalSales ?? 0,
+      totalProducts: partnerProducts.length,
+    },
+    products: partnerProducts
+      .filter((product) => product._id)
+      .map((product) => ({
+        id: product._id!,
+        title: product.title,
+        type: product.type,
+        price: product.price,
+        totalSales: product.totalSales ?? 0,
+        totalRevenue: product.totalRevenue ?? 0,
+      })),
+
+    orders: partnerOrders
+      .filter((order) => order.paymentStatus === "success")
+      .map((order) => ({
+        productTitle: order.productTitle,
+        partnerAmount: order.partnerAmount,
+        createdAt: new Date(order.createdAt).toISOString(),
+      })),
+  }
+
   return (
     <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-16 pt-8 sm:gap-10 sm:px-6 lg:px-8">
 
@@ -100,6 +131,8 @@ const DashboardPanel = () => {
           icon={<Package className="size-6" />}
         />
       </div>
+
+      <AIAnalytics analyticsData={analyticsData}/>
 
       <Card className="overflow-hidden rounded-3xl border border-white/10 bg-[#0b0d1f]/80 text-slate-200 shadow-[0_24px_80px_-35px_rgba(99,102,241,0.4)] ring-1 ring-white/5 backdrop-blur-xl">
         <CardHeader className="border-b border-white/10 p-5 sm:p-6">

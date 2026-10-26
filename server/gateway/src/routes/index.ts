@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import {
+    aiServiceProxy,
     authServiceProxy,
     orderServiceProxy,
     productServiceProxy,
@@ -22,6 +23,9 @@ router.use("/product", protect, productServiceProxy);
 
 //Order routes
 router.use("/order", orderServiceProxy);
+
+//AI routes
+router.use("/ai", protect, aiServiceProxy);
 
 //Public Product routes
 router.use("/public-product", publicProductServiceProxy);

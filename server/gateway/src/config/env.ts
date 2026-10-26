@@ -9,6 +9,7 @@ interface Environment {
     AUTH_SERVICE_URL: string;
     PRODUCT_SERVICE_URL: string;
     ORDER_SERVICE_URL: string;
+    AI_SERVICE_URL: string;
 }
 
 const getRequiredEnv = (key: string): string => {
@@ -55,4 +56,5 @@ export const env: Environment = {
     AUTH_SERVICE_URL: getServiceUrl("AUTH_SERVICE_URL"),
     PRODUCT_SERVICE_URL: getServiceUrl("PRODUCT_SERVICE_URL"),
     ORDER_SERVICE_URL: getServiceUrl("ORDER_SERVICE_URL"),
+    AI_SERVICE_URL: getServiceUrl("AI_SERVICE_URL"),
 };
