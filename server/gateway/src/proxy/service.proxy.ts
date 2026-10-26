@@ -31,6 +31,8 @@ export const productServiceProxy = proxyWithUserId(env.PRODUCT_SERVICE_URL);
 
 export const orderServiceProxy = proxy(env.ORDER_SERVICE_URL);
 
+export const aiServiceProxy = proxyWithUserId(env.AI_SERVICE_URL);
+
 export const publicProductServiceProxy = proxy(env.PRODUCT_SERVICE_URL, {
     filter: (req) =>
         (req.method === "GET" && req.path === "/all-public") ||

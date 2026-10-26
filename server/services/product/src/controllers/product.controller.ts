@@ -14,8 +14,6 @@ import {
     handleDownload as handleDownloadService,
 } from "../services/product.service.js";
 import { AppError } from "../error/AppError.js";
-import { pipeline } from "node:stream";
-import { Readable } from "node:stream";
 
 export const createProduct = async (
     req: Request,

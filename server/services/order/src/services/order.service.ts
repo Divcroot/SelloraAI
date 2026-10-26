@@ -29,8 +29,9 @@ interface VerifyPaymentData {
 
 const ORDERS_CACHE_KEY = "orders:all";
 
-const invalidateOrdersCache = async () => {
+const invalidateOrdersCache = async (partnerId: string) => {
     await redis.del(ORDERS_CACHE_KEY);
+    await redis.del(`ai:${partnerId.trim()}`);
 };
 
 export const createOrder = async (input: CreateOrderInput) => {
@@ -89,7 +90,7 @@ export const createOrder = async (input: CreateOrderInput) => {
         adminAmount,
     });
 
-    await invalidateOrdersCache();
+    await invalidateOrdersCache(partnerId);
 
     return {
         orderId: order._id,
@@ -154,7 +155,7 @@ export const verifyPayment = async (
         },
     );
 
-    await invalidateOrdersCache();
+    await invalidateOrdersCache(order.partnerId.toString());
 
     return order;
 };
