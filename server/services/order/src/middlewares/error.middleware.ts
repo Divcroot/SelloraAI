@@ -10,23 +10,12 @@ export const errorMiddleware: ErrorRequestHandler = (
     _req: Request,
     res: Response,
 ): void => {
-    console.error("Product Service error:", error);
-
+    console.error("Order Service error:", error);
     if (error instanceof AppError) {
         res.status(error.statusCode).json({
             success: false,
             message: error.message,
         });
-
-        return;
-    }
-
-    if (error instanceof Error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
-
         return;
     }
 

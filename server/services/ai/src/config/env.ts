@@ -18,7 +18,7 @@ const getRequiredEnv = (key: string): string => {
 };
 
 const getPort = (): number => {
-    const value = process.env.PORT ?? "8002";
+    const value = process.env.PORT ?? "8004";
     const port = Number(value);
 
     if (!Number.isInteger(port) || port <= 0) {

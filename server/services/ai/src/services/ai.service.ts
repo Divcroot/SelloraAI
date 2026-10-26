@@ -64,7 +64,7 @@ export const getAIAnalytics = async (
             }
 
             if (expiresIn === -2) {
-                
+
             } else {
                 return {
                     aiAnalytics,
@@ -81,8 +81,15 @@ export const getAIAnalytics = async (
         }
     }
 
+    if (
+        !input ||
+        !input.summary ||
+        !Array.isArray(input.products) ||
+        !Array.isArray(input.orders)
+    ) {
+        throw new AppError("Invalid analytics data", 400);
+    }
     const aiResponse = await aiAgent(input);
-
     const productPerformance: ProductPerformance[] =
         input.products.map((product) => ({
             productId: product.id,
